@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+ <head>
+ <style>
+/* Áp dụng kiểu  */
+ .arc text {
+ font: 12px arial;
+ text-anchor: middle;
+ }
+ 
+ .arc path {
+ stroke: #fff;
+ }
+ 
+ .title {
+ fill: green;
+ font-weight: italic;
+ }
+ </style>
+ 
+ <script type = "text/javascript" src = "https://d3js.org/d3.v4.min.js"></script>
+ </head>
+ <body>
+ <svg width = "400" height = "400"></svg>
+ 
+<!-- Xác đinh các biến  -->
+<script>
+ var svg = d3.select("svg"),
+ width = svg.attr("width"),
+ height = svg.attr("height"),
+ radius = Math.min(width, height) / 2;
+
+//  Áp dụng chuyển đổi 
+ var g = svg.append("g")
+ .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+ var color = d3.scaleOrdinal(['blue', 'green']);
+//  Tạo biểu đồ tròn 
+ var pie = d3.pie().value(function(d) {
+ return d.percent;
+ });
+
+//  Xác định cung tròn cho lát hình tròn 
+ var path = d3.arc()
+ .outerRadius(radius - 10).innerRadius(0);
+
+//  Thêm nhãn cho hình lát
+ var label = d3.arc()
+ .outerRadius(radius).innerRadius(radius - 80);
+
+//  Đọc dữ liệu từ data.csv
+ d3.csv("Cau_a.csv", function(error, data) {
+ if (error) {
+ throw error;
+ }
+
+//  Tải dữ liệu
+ var arc = g.selectAll(".arc")
+ .data(pie(data))
+ .enter()
+ .append("g")
+ .attr("class", "arc");
+
+//  Nối đường dẫn
+ arc.append("path")
+ .attr("d", path)
+ .attr("fill", function(d) { return color(d.data.states); });
+ console.log(arc)
+
+//  Nối văn bản
+ arc.append("text").attr("transform", function(d) {
+ return "translate(" + label.centroid(d) + ")";
+ })
+ .text(function(d) { return d.data.states; });
+ });
+ svg.append("g")
+ .attr("transform", "translate(" + (width / 2 - 120) + "," + 20 + ")")
+ .append("text").text("Rate Between United Kingdom and Netherlands")
+ .attr("class", "title")
+ </script>
+ </body>
+</html>
