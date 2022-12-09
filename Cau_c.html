@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+    <style>
+        .bar3 {
+            fill: lightgreen;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+<body>   
+    <div class="cau3">
+        <svg width="600" height="500" id="svg3"></svg>
+        <script>
+        var svg3 = d3.select("#svg3"),
+            margin = 200,
+            width = svg3.attr("width") - margin,
+            height = svg3.attr("height") - margin
+    
+        svg3.append("text")
+        .attr("transform", "translate(100,0)")
+        .attr("x", 50)
+        .attr("y", 50)
+        .attr("font-size", "24px")
+        .text("Cho biết top 10 sản phẩm bán chạy nhất")
+    
+        var xScale = d3.scaleBand().range([0, width]).padding(0.4),
+            yScale = d3.scaleLinear().range([height, 0]);
+    
+        var g = svg3.append("g")
+                .attr("transform", "translate(" + 100 + "," + 100 + ")");
+    
+        d3.csv("Cau_c.csv", function(error, data) {
+            if (error) {
+                throw error;
+            }
+    
+            xScale.domain(data.map(function(d) { return d.Description; }));
+            yScale.domain([0, d3.max(data, function(d) { return d.Quantity; })]);
+    
+            g.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(xScale))
+            .append("text")
+            .attr("y", height - 250)
+            .attr("x", width - 100)
+            .attr("text-anchor", "end")
+            .attr("stroke", "black")
+            .text("Description")
+
+    
+            g.append("g")
+            .call(d3.axisLeft(yScale).tickFormat(function(d){
+                return "$" + d;
+            })
+            .ticks(10))
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", "-5.1em")
+            .attr("text-anchor", "end")
+            .attr("stroke", "black")
+            .text("Quantity");
+    
+            g.selectAll(".bar3")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar3")
+            .attr("x", function(d) { return xScale(d.Description); })
+            .attr("y", function(d) { return yScale(d.Quantity); })
+            .attr("width", xScale.bandwidth())
+            .attr("height", function(d) { return height - yScale(d.Quantity); })
+            .text(function(d) {
+                return d.t;
+            })
+            .attr("transform", function(d,i){
+                var xText = i * (w / data.length);
+                var yText = h - yScale(d.v);
+                return "translate(" + xText + "," + yText + ") rotate(90)";
+            });
+        });
+    </script>
+    </div>
+</body>
+</html>
