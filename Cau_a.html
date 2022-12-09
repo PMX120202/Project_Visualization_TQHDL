@@ -36,12 +36,12 @@
  var color = d3.scaleOrdinal(['blue', 'green']);
 //  Tạo biểu đồ tròn 
  var pie = d3.pie().value(function(d) {
- return d.percent;
+ return d.Percent;
  });
 
 //  Xác định cung tròn cho lát hình tròn 
  var path = d3.arc()
- .outerRadius(radius - 10).innerRadius(0);
+ .outerRadius(radius - 50).innerRadius(0);
 
 //  Thêm nhãn cho hình lát
  var label = d3.arc()
@@ -63,14 +63,14 @@
 //  Nối đường dẫn
  arc.append("path")
  .attr("d", path)
- .attr("fill", function(d) { return color(d.data.states); });
+ .attr("fill", function(d) { return color(d.data.Country); });
  console.log(arc)
 
 //  Nối văn bản
  arc.append("text").attr("transform", function(d) {
  return "translate(" + label.centroid(d) + ")";
  })
- .text(function(d) { return d.data.states; });
+ .text(function(d) { return d.data.Country; });
  });
  svg.append("g")
  .attr("transform", "translate(" + (width / 2 - 120) + "," + 20 + ")")
