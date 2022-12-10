@@ -9,7 +9,8 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
 <body>   
     <div class="cau3">
-        <svg width="600" height="500" id="svg3"></svg>
+        <text transform="translate(200,100)rotate(180)"></text>
+        <svg width="800" height="600" id="svg3"></svg>
         <script>
         var svg3 = d3.select("#svg3"),
             margin = 200,
@@ -27,27 +28,25 @@
             yScale = d3.scaleLinear().range([height, 0]);
     
         var g = svg3.append("g")
-                .attr("transform", "translate(" + 100 + "," + 100 + ")");
-    
+                .attr("transform", "translate(" + 100 + "," + 100 + ")")
+                
+
         d3.csv("Cau_c.csv", function(error, data) {
             if (error) {
                 throw error;
             }
     
-            xScale.domain(data.map(function(d) { return d.Description; }));
+            xScale.domain(data.map(function(d) { return d.Description }));
             yScale.domain([0, d3.max(data, function(d) { return d.Quantity; })]);
     
             g.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(xScale))
-            .append("text")
-            .attr("y", height - 250)
-            .attr("x", width - 100)
-            .attr("text-anchor", "end")
-            .attr("stroke", "black")
-            .text("Description")
-
-    
+                .attr("transform", "translate(0," + height  + ")")
+                .call(d3.axisBottom(xScale))
+                .selectAll("text")
+                        .attr("transform", "translate(-10,10)rotate(-45)")
+                        .style("text-anchor", "end")
+                        .style("font-size", 6)
+                        .style("fill", "#000")
             g.append("g")
             .call(d3.axisLeft(yScale).tickFormat(function(d){
                 return "$" + d;
@@ -63,22 +62,19 @@
     
             g.selectAll(".bar3")
             .data(data)
-            .enter().append("rect")
-            .attr("class", "bar3")
-            .attr("x", function(d) { return xScale(d.Description); })
-            .attr("y", function(d) { return yScale(d.Quantity); })
-            .attr("width", xScale.bandwidth())
-            .attr("height", function(d) { return height - yScale(d.Quantity); })
-            .text(function(d) {
-                return d.t;
-            })
-            .attr("transform", function(d,i){
-                var xText = i * (w / data.length);
-                var yText = h - yScale(d.v);
-                return "translate(" + xText + "," + yText + ") rotate(90)";
-            });
+            .enter()
+            .append("rect")
+                .attr("class", "bar3")
+                .attr("x", function(d) { return xScale(d.Description); })
+                .attr("y", function(d) { return yScale(d.Quantity); })
+                .attr("width",xScale.bandwidth())
+                .attr("height", function(d) { return height - yScale(d.Quantity); });
+            
+
+   
         });
     </script>
     </div>
+
 </body>
 </html>
