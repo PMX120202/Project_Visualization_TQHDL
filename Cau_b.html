@@ -21,7 +21,7 @@
             .attr("x", 50)
             .attr("y", 50)
             .attr("font-size", "24px")
-            .text("heheheheh")
+            .text("Top 5 quốc gia có tổng doanh thu mua hàng cao nhất.")
         
             var xScale2 = d3.scaleBand().range([0, width]).padding(0.4),
                 yScale2 = d3.scaleLinear().range([height, 0]);
@@ -38,14 +38,14 @@
                 yScale2.domain([0, d3.max(data, function(d) { return d.Sum; })]);
         
                 g.append("g")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(xScale2))
-                .append("text")
-                .attr("y", height - 250)
-                .attr("x", width - 100)
-                .attr("text-anchor", "end")
-                .attr("stroke", "black")
-                .text("Country");
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(xScale2))
+                    .append("text")
+                    .attr("y", height - 250)
+                    .attr("x", width - 100)
+                    .attr("text-anchor", "end")
+                    .attr("stroke", "black")
+                    .text("Country");
         
                 g.append("g")
                 .call(d3.axisLeft(yScale2).tickFormat(function(d){
