@@ -42,20 +42,22 @@
                     .call(d3.axisBottom(xScale2))
                     .append("text")
                     .attr("y", height - 250)
-                    .attr("x", width - 100)
+                    .attr("x", width - 200)
                     .attr("text-anchor", "end")
                     .attr("stroke", "black")
                     .text("Country");
         
                 g.append("g")
                 .call(d3.axisLeft(yScale2).tickFormat(function(d){
-                    return "$" + d;
+                    return  d + "$";
                 })
                 .ticks(10))
                 .append("text")
                 .attr("transform", "rotate(-90)")
-                .attr("y", 6)
+                .attr("y",  height -330)
+                .attr("x", height - 450)
                 .attr("dy", "-5.1em")
+             
                 .attr("text-anchor", "end")
                 .attr("stroke", "black")
                 .text("Sum");

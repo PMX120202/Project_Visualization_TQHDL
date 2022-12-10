@@ -13,7 +13,7 @@
  }
  
  .title {
- fill: green;
+ fill: #000;
  font-weight: italic;
  }
  </style>
@@ -23,7 +23,7 @@
  <body>
  <svg width = "400" height = "400"></svg>
  
- Xác đinh các biến  
+ <!-- Xác đinh các biến   -->
 <script>
  var svg = d3.select("svg"),
  width = svg.attr("width"),
@@ -33,7 +33,7 @@
 //  Áp dụng chuyển đổi 
  var g = svg.append("g")
  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
- var color = d3.scaleOrdinal(['blue', 'lightgray']);
+ var color = d3.scaleOrdinal(['#3399CC', '#9933FF']);
 //  Tạo biểu đồ tròn 
  var pie = d3.pie().value(function(d) {
  return d.Percent;
@@ -71,7 +71,15 @@
  return "translate(" + label.centroid(d) + ")";
  })
  .text(function(d) { return d.data.Country; });
+ 
+
+//  arc.append("text").attr("transform", function(d) {
+//  return "translate(" + label.centroid(d) + ")";
+//  })
+//  .text(function(d) { return d.data.Percent ;height -10 });
  });
+
+ 
  svg.append("g")
  .attr("transform", "translate(" + (width / 2 - 120) + "," + 20 + ")")
  .append("text").text("Rate Between United Kingdom and Netherlands")
